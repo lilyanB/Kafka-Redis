@@ -1,0 +1,12 @@
+{
+    "name": "redis-sink",
+    "config": {
+      "connector.class": "io.github.jaredpetersen.kafkaconnectredis.sink.RedisSinkConnector",
+      "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+      "value.converter": "org.apache.kafka.connect.json.JsonConverter",      
+      "tasks.max": "1",
+      "redis.uri":"redis://redis:6379",
+      "topics":"redis",
+      "redis.cluster.enabled": false
+    }
+}
