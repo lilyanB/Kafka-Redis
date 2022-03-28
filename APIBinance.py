@@ -31,8 +31,7 @@ def getDepth(SYMBOLE,INFO):
 
 def pushKafka(giveKey,giveValue):
     producer = KafkaProducer(bootstrap_servers='localhost:29092')
-    for _ in range(2):
-        producer.send('{"payload":{"key":"' + giveKey + '","value":"' + giveValue + '"},' + SCHEMA + '}')
+    producer.send('{"payload":{"key":"' + giveKey + '","value":"' + giveValue + '"},' + SCHEMA + '}')
     return True
 
 def all():
@@ -56,7 +55,7 @@ def all():
 
 
 if __name__ == '__main__':
-    listAsset()
+    #listAsset()
     #print(getDepth("BTCBUSD","bids"))
     #print(getDepth("BTCBUSD","asks"))
     #pushKafka("employee", "1526")
