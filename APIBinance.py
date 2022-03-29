@@ -7,7 +7,6 @@ from kafka import KafkaProducer
 URL = 'https://api.binance.com/api/v3/'
 PATH = '/order/test'
 
-""" "payload":{"key":"users:1:username","value":"Greg"}, """
 SCHEMA = '"schema":{"name":"io.github.jaredpetersen.kafkaconnectredis.RedisSetCommand","type":"struct","fields":[{"field":"key","type":"string","optional":false},{"field":"value","type":"string","optional":false},{"field":"expiration","type":"struct","fields":[{"field":"type","type":"string","optional":false},{"field":"time","type":"int64","optional":true}],"optional":true},{"field":"condition","type":"string","optional":true}]}'
 
 
