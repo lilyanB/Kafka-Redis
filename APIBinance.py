@@ -44,14 +44,13 @@ def all():
     for i in range(1,len(BIDS)):
         valuee = BIDS["price"][i]
         listBIDS.append(valuee)
+        #print(listBIDS)
         pushKafka("price" + i,valuee)
     for i in range(1, len(ASKS)):
         valuee = ASKS["price"][i]
         listASKS.append(valuee)
+        #print(listASKS)
         pushKafka("price" + i,valuee)
-
-
-
 
 
 if __name__ == '__main__':
