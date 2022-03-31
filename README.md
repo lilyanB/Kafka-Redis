@@ -29,3 +29,7 @@ import kafka
 
 ### Run Affiche.py
 When you want to have the Price, you can run this files
+Verify you are all requirements.
+```python
+import redis
+```
