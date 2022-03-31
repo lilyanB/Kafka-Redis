@@ -25,6 +25,7 @@ def getDepth(SYMBOLE,INFO):
   frames = {side: pd.DataFrame(data=results[side], columns=["price", "quantity"], dtype=float) for side in [INFO]}
   frames_list = [frames[side].assign(side=side) for side in frames]
   data = pd.concat(frames_list, axis="index", ignore_index=True, sort=True)
+  print(data)
   return(data)
 
 
@@ -35,21 +36,22 @@ def pushKafka(giveKey,giveValue):
 
 def all():
     LISTE = listAsset()
-    FirstList = LISTE[0]
-    BIDS = getDepth(FirstList,"bids")
-    ASKS = getDepth(FirstList,"asks")
+    print(LISTE)
+    Pair = input("Entrer une paire dans la liste que vous voyez si dessus :")
+    BIDS = getDepth(Pair,"bids")
+    ASKS = getDepth(Pair,"asks")
     listBIDS = []
     listASKS = []
     for i in range(1,len(BIDS)):
         valuee = BIDS["price"][i]
         listBIDS.append(valuee)
-        #print(listBIDS)
-        pushKafka("price" + i,valuee)
+        print(listBIDS)
+        #pushKafka("price" + i,valuee)
     for i in range(1, len(ASKS)):
         valuee = ASKS["price"][i]
         listASKS.append(valuee)
-        #print(listASKS)
-        pushKafka("price" + i,valuee)
+        print(listASKS)
+        #pushKafka("price" + i,valuee)
 
 
 if __name__ == '__main__':
