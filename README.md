@@ -1,6 +1,7 @@
 # Kafka-Redis
 
-Lilyan BASTIEN 2022
+Designing Distributed Systems 2022
+use of Kafka and Docker compose
 
 ### Usage of the scripts
 ```bash
