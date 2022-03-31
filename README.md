@@ -1,6 +1,7 @@
 # Kafka-Redis
 
 Designing Distributed Systems 2022
+
 use of Kafka and Docker compose
 
 ### Usage of the scripts
