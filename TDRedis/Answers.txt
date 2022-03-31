@@ -1,0 +1,65 @@
+step 1
+hset users age 21 location paris gender male mail lilyan.bastien@gmail.com postal paris
+hgetall users
+
+step2
+sadd friendsrequests 1 4 5
+sadd friendsaccept 1 2 5 4 5
+sadd friendssent 1 7 9 8
+
+1 4 5 ... = IDusers
+smembers friendssent
+scard friendsrequests = le nombre totale
+
+step 3
+sadd friendsrequests 5682
+
+step 4
+sadd friendsaccept 5682
+
+step 5
+srem friendsaccept 5682
+
+step 6
+zadd statusupdates 25846 1
+zadd statusupdates 25847 0
+zadd statusupdates 25846 1
+
+ou
+1=poster
+0=non poster
+25846= id du post
+
+step 7
+RPOPLPUSH uid:{userid}:updates uid:{userid}:updates1
+
+step 8
+sadd postcomments:264485 "ceci est un commmentaire"
+sadd postcomments:264485 "ceci est un deuxieme commmentaire"
+sadd postcomments:264486 "ceci est un commmentaire d'un autre post"
+
+step 9 et 10:
+le fichier:
+insee_com	postal_code	nom_comm	nom_dept	nom_region	statut	z_moyen	superficie	population	geo_point_2d	geo_shape	id_geofla	code_comm	code_cant	code_arr	code_dept	code_reg
+
+Fichier python:
+
+import redis
+import requests
+import json
+
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+url = "https://geo.api.gouv.fr/communes?codeRegion=11&fields=nom,codesPostaux&format=json&geometry=centre"
+reponse = requests.get(url)
+data = json.loads(reponse.text)
+
+for i in range(len(data)):
+    codespostaux = data[i]["codesPostaux"]
+    nom = data[i]["nom"]
+    print(codespostaux, "la ville :" , nom)
+    nom = str(nom)
+    codespostaux = str(codespostaux)
+    r.hset('datagouv',codespostaux,nom)
+
+
