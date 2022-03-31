@@ -17,9 +17,7 @@ docker-compose up
 curl -s -X POST -H 'Content-Type: application/json' --data @redis-sink-config.json http://localhost:8083/connectors
 ```
 ### Run APIBinance.py
-With this files, you will push the Bitcoin price during 5min
-
-You can change "time" depending on your needs
+With this files, you will push the Bitcoin price during the time you want.
 
 Verify you are all requirements.
 ```python
