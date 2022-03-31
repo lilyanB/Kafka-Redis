@@ -19,6 +19,13 @@ curl -s -X POST -H 'Content-Type: application/json' --data @redis-sink-config.js
 ### Run APIBinance.py
 With this files, you will push the Bitcoin price during 5min
 You can change "time" depending on your needs
+Verify you are all requirements.
+```python
+import requests
+import pandas as pd
+from kafka import KafkaProducer
+import kafka
+```
 
 ### Run Affiche.py
 When you want to have the Price, you can run this files

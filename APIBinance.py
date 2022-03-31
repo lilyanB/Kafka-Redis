@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
-from urllib.parse import urlencode
 from kafka import KafkaProducer
+import time
 
 
 URL = 'https://api.binance.com/api/v3/'
@@ -20,13 +20,13 @@ def listAsset():
 
 
 def getDepth(SYMBOLE,INFO):
-  r = requests.get(URL + "depth", params=dict(symbol=SYMBOLE))
-  results = r.json()
-  frames = {side: pd.DataFrame(data=results[side], columns=["price", "quantity"], dtype=float) for side in [INFO]}
-  frames_list = [frames[side].assign(side=side) for side in frames]
-  data = pd.concat(frames_list, axis="index", ignore_index=True, sort=True)
-  print(data)
-  return(data)
+    r = requests.get(URL + "depth", params=dict(symbol=SYMBOLE))
+    results = r.json()
+    frames = {side: pd.DataFrame(data=results[side], columns=["price", "quantity"], dtype=float) for side in [INFO]}
+    frames_list = [frames[side].assign(side=side) for side in frames]
+    data = pd.concat(frames_list, axis="index", ignore_index=True, sort=True)
+    print(data["price"][0])
+    return(data)
 
 
 def pushKafka(giveKey,giveValue):
@@ -36,22 +36,18 @@ def pushKafka(giveKey,giveValue):
 
 def all():
     LISTE = listAsset()
-    print(LISTE)
+    print(LISTE[:48])
     Pair = input("Entrer une paire dans la liste que vous voyez si dessus :")
-    BIDS = getDepth(Pair,"bids")
-    ASKS = getDepth(Pair,"asks")
-    listBIDS = []
-    listASKS = []
-    for i in range(1,len(BIDS)):
-        valuee = BIDS["price"][i]
-        listBIDS.append(valuee)
-        print(listBIDS)
-        #pushKafka("price" + i,valuee)
-    for i in range(1, len(ASKS)):
-        valuee = ASKS["price"][i]
-        listASKS.append(valuee)
-        print(listASKS)
-        #pushKafka("price" + i,valuee)
+    temps = float(input("Pendant combien de temps voulez vous envoyer à Kafka le prix? (min)"))
+    fin = time.time() + temps * 60 
+    while time.time()<fin:
+        BIDS = getDepth(Pair,"bids")
+        ASKS = getDepth(Pair,"asks")
+        MIN = BIDS["price"][0]
+        MAX = ASKS["price"][0]
+        MOYENNE = (MIN+MAX)/2
+        pushKafka("price",MOYENNE)
+        pass
 
 
 if __name__ == '__main__':
@@ -60,3 +56,4 @@ if __name__ == '__main__':
     #print(getDepth("BTCBUSD","asks"))
     #pushKafka("employee", "1526")
     all()
+    print("END")
